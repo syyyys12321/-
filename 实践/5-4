@@ -1,0 +1,76 @@
+```python
+import torch as t
+from torch import nn
+```
+
+# 设计一个接受输入并计算张量降维的层，它返回 $y_k =\sum_{i,j} w_{ijk}x_ix_j $。
+
+
+```python
+x=t.rand(1,50)
+class MyNet(nn.Module):
+    def __init__(self,i,k):
+        super().__init__()
+        self.w=t.rand(k,i,i)
+    def forward(self,X):
+        return t.matmul(t.matmul(X,self.w),X.T).resize(1,len(self.w))
+net1=MyNet(50,3)
+net1(x)
+```
+
+
+
+
+    tensor([[358.1713, 363.2960, 365.2417]])
+
+
+
+# 设计一个返回输入数据的傅立叶系数前半部分的层。
+
+
+```python
+y=t.rand(5,10)
+class FftLayer(nn.Module):
+    def __init__(self):
+        super().__init__()
+    def forward(self,X):
+        return t.fft.fft(X)[:,:int(X.shape[1]/2)]
+net2=FftLayer()
+net2(y)
+```
+
+
+
+
+    tensor([[ 6.3819+0.0000j,  0.1688-0.6493j,  1.3128+0.6818j,  0.2078-0.1599j,
+             -0.3696-0.4462j],
+            [ 4.9797+0.0000j,  1.1539-0.7108j, -0.6577+0.0074j,  0.5322-0.8764j,
+              0.9387-1.0444j],
+            [ 6.0185+0.0000j,  0.1712-0.3071j,  0.2936+0.2553j, -0.1519-0.2267j,
+             -0.8908-0.1045j],
+            [ 3.6282+0.0000j, -0.9893+0.5866j,  0.9151-0.7108j, -0.6939+0.2605j,
+              0.3561-1.2078j],
+            [ 5.1771+0.0000j, -0.2901-1.0388j,  0.4601-0.6504j,  0.0841-0.9869j,
+              0.7041+1.5799j]])
+
+
+
+
+```python
+
+```
+
+
+```python
+
+```
+
+
+```python
+
+```
+
+
+```python
+
+```
